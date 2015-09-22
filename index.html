@@ -1,0 +1,271 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Surfrider Vancouver Beach Cleanups</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/jpg" href="Content/images/surffavicon.jpg" />
+    <script src="Scripts/leaflet-0.7.3.js"></script>
+    <script src="Scripts/leaflet.zoomhome.min.js"></script>
+    <link rel="stylesheet" href="Content/leaflet.css" />
+    <link rel="stylesheet" href="Content/bootstrap.min.css" />
+    <link rel="stylesheet" href="Content/font-awesome.min.css" />
+    <link rel="stylesheet" href="Content/leaflet.zoomhome.css" />
+    <link rel="stylesheet" href="Content/main.css" />
+</head>
+
+
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <script type="text/javascript" src="Scripts/beaches.js"></script>
+
+
+
+            <!-- map area -->
+            <div class="col-md-9 col-sm-9 col-xs-9 left-side">
+                <div id="map" style="height: 100%; width: 100%; position: relative;"></div>
+            </div>
+
+
+
+            <!--  data area  -->
+            <div class="col-md-3 col-sm-3 col-xs-3 right-side">
+
+                <a href="http://www.vancouverbc.surfrider.org/" target="_blank">
+                    <img src="Content/images/surfriderLogo.png" alt="@surfridervan" class="center-block" style="width:30%; height:auto;" />
+                </a>
+                <h1 class="text-center">Surfrider Vancouver Beach Cleanups</h1>
+                <p class="text-justify" style="margin-bottom: 15px;">Surfrider Vancouver conducts monthly cleanups at local beaches as part of our Protect Where You Play campaign.  At each cleanup, trash is collected from a 100 meter transect, sorted and counted.  <b>Hover over a beach to display the AVERAGE of each trash type.</b></p>
+
+                <div class="row" style="margin-bottom: 10px;">
+                    <div class="col-md-5 col-sm-5 col-xs-5">
+                        <p class="text-right"><b>Beach:</b></p>
+                        <p class="text-right"># of transect events:</p>
+                        <p class="text-right">Most recent cleanup:</p>
+                    </div>
+                    <div class="col-md-7 col-sm-7 col-xs-7">
+                        <div id="beachName"></div>
+                        <div id="transects"></div>
+                        <div id="date"></div>
+                    </div>
+                </div>
+
+
+                <!-- three columns - one on left for category - two on right for data -->
+                <div class="row">
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                        <p>&nbsp;</p>
+                        <p class="text-right">Cigarettes:</p>
+                        <p class="text-right">Plastic:</p>
+                        <p class="text-right">Metal:</p>
+                        <p class="text-right">Glass:</p>
+                        <p class="text-right">Rubber:</p>
+                        <p class="text-right">Wood:</p>
+                        <p class="text-right">Cloth:</p>
+                        <p class="text-right">Other:</p>
+                        <p class="text-right"><b>TOTAL:</b></p>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                        <p><b>Count</b></p>
+                        <div id="cigarettes_c"></div>
+                        <div id="plastic_c"></div>
+                        <div id="metal_c"></div>
+                        <div id="glass_c"></div>
+                        <div id="rubber_c"></div>
+                        <div id="wood_c"></div>
+                        <div id="cloth_c"></div>
+                        <div id="other_c"></div>
+                        <div id="total_c"></div>
+
+
+
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-4">
+                        <p><b>Mass</b></p>
+                        <div id="cigarettes_m"></div>
+                        <div id="plastic_m"></div>
+                        <div id="metal_m"></div>
+                        <div id="glass_m"></div>
+                        <div id="rubber_m"></div>
+                        <div id="wood_m"></div>
+                        <div id="cloth_m"></div>
+                        <div id="other_m"></div>
+                        <div id="total_m"></div>
+
+
+
+
+                    </div>
+                </div>
+                
+                <div id="image"></div>
+
+        </div>
+    </div>
+
+
+
+
+    <script>
+                    //load map
+        var map = L.map('map', { zoomControl: false }).setView([49.3005116, -123.1982394], 13);
+                    L.tileLayer('https://{s}.tiles.mapbox.com/v4/jcristia.a901a5c8/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiamNyaXN0aWEiLCJhIjoiQmFielRYTSJ9.gqekTOIsirCI5WZrmx-3Gw').addTo(map);
+
+                    //add zoom to home functionality
+                    var zoomHome = L.Control.zoomHome();
+                    zoomHome.addTo(map);
+
+
+                    //Note: esrijson does not work.  Use the free esri2open toolbox in desktop to convert to geojson
+                    //chose not to use jQuery to get pure json since it doesn't work locally
+
+
+                    //create style
+                    var mystyle = {
+                        fillColor: "orange",
+                        weight: 2,
+                        opacity: 1,
+                        color: 'white',
+                        dashArray: '3',
+                        fillOpacity: 0.7
+                    };
+
+                    //from the mapbox demo - sets up the variable to do the innerhtml
+                    var beachName = document.getElementById('beachName');
+                    var transects = document.getElementById('transects');
+                    var date = document.getElementById('date');
+                    var cigarettes_c = document.getElementById('cigarettes_c');
+                    var plastic_c = document.getElementById('plastic_c');
+                    var metal_c = document.getElementById('metal_c');
+                    var glass_c = document.getElementById('glass_c');
+                    var rubber_c = document.getElementById('rubber_c');
+                    var wood_c = document.getElementById('wood_c');
+                    var cloth_c = document.getElementById('cloth_c');
+                    var other_c = document.getElementById('other_c');
+                    var total_c = document.getElementById('total_c');
+                    var cigarettes_m = document.getElementById('cigarettes_m');
+                    var plastic_m = document.getElementById('plastic_m');
+                    var metal_m = document.getElementById('metal_m');
+                    var glass_m = document.getElementById('glass_m');
+                    var rubber_m = document.getElementById('rubber_m');
+                    var wood_m = document.getElementById('wood_m');
+                    var cloth_m = document.getElementById('cloth_m');
+                    var other_m = document.getElementById('other_m');
+                    var total_m = document.getElementById('total_m');
+                    var iamge = document.getElementById('image');
+                    
+
+
+                    //highlight feature on mouseover and get geojson feature properties and do the 
+                    function getAndHighlightFeature(e) {
+                        var layer = e.target;
+
+                        layer.setStyle({
+                            fillColor: "yellow",
+                            weight: 2,
+                            color: '#666',
+                            dashArray: '',
+                            fillOpacity: 0.7
+                        });
+
+                        if (!L.Browser.ie && !L.Browser.opera) {
+                            layer.bringToFront();
+                        }
+
+                        //get geojson feature properties and put into beach variable
+                        var beach = e.target.feature.properties;
+
+
+                        //do the innerhtml to get the feature properties accessible out of the map
+                        //round to 1 decimal place, prevents me from having to do extra work in excel/arcgis
+                        beachName.innerHTML = '<p><b>' + beach.Location_Name + '</b></p>';
+                        transects.innerHTML = '<p><b>' + beach.Sample_size_transects + '</b></p>';
+                        date.innerHTML = '<p><b>' + beach.Date_of_most_recent_cleanup + '</b></p>';
+                        image.innerHTML = '<img src="' + beach.PhotoURL + '" alt="beach image" class="center-block" style="width:auto; height:auto;"/>';
+                        cigarettes_c.innerHTML = '<p><b>' + (beach.Cig_Total_Count).toFixed(1); + '</b></p>';
+                        plastic_c.innerHTML = '<p><b>' + (beach.Plastic_Total_Count).toFixed(1); + '</b></p>';
+                        metal_c.innerHTML = '<p><b>' + (beach.Metal_Total_Count).toFixed(1); + '</b></p>';
+                        glass_c.innerHTML = '<p><b>' + (beach.Glass_Total_Count).toFixed(1); + '</b></p>';
+                        rubber_c.innerHTML = '<p><b>' + (beach.Rubber_Total_Count).toFixed(1); + '</b></p>';
+                        wood_c.innerHTML = '<p><b>' + (beach.Wood_Total_Count).toFixed(1); + '</b></p>';
+                        cloth_c.innerHTML = '<p><b>' + (beach.Cloth_Total_Count).toFixed(1); + '</b></p>';
+                        other_c.innerHTML = '<p><b>' + (beach.OtherNoCig_Total_Count).toFixed(1); + '</b></p>';
+                        total_c.innerHTML = '<p><b>' + (beach.Grand_Total_Count).toFixed(1); + '</b></p>';
+                        cigarettes_m.innerHTML = '<p><b>' + (beach.Cig_Total_Mass).toFixed(1); + '</b></p>';
+                        plastic_m.innerHTML = '<p><b>' + (beach.Plastic_Total_Mass).toFixed(1); + '</b></p>';
+                        metal_m.innerHTML = '<p><b>' + (beach.Metal_Total_Mass).toFixed(1); + '</b></p>';
+                        glass_m.innerHTML = '<p><b>' + (beach.Glass_Total_Mass).toFixed(1); + '</b></p>';
+                        rubber_m.innerHTML = '<p><b>' + (beach.Rubber_Total_Mass).toFixed(1); + '</b></p>';
+                        wood_m.innerHTML = '<p><b>' + (beach.Wood_Total_Mass).toFixed(1); + '</b></p>';
+                        cloth_m.innerHTML = '<p><b>' + (beach.Cloth_Total_Mass).toFixed(1); + '</b></p>';
+                        other_m.innerHTML = '<p><b>' + (beach.OtherNoCig_Total_Mass).toFixed(1); + '</b></p>';
+                        total_m.innerHTML = '<p><b>' + (beach.Grand_Total_Mass).toFixed(1); + '</b></p>';
+                        
+                    }
+
+
+
+
+                    //make geojson variable accessible by defining it before the listeners and assigning to the layer
+                    var geojson;
+
+                    //reset original style on mouseout and remove json properties from right
+                    function resetHighlightAndGet(e) {
+                        geojson.resetStyle(e.target);
+                        
+                        beachName.innerHTML = '';
+                        transects.innerHTML = '';
+                        date.innerHTML = '';
+                        cigarettes_c.innerHTML = '';
+                        plastic_c.innerHTML = '';
+                        metal_c.innerHTML = '';
+                        glass_c.innerHTML = '';
+                        rubber_c.innerHTML = '';
+                        wood_c.innerHTML = '';
+                        cloth_c.innerHTML = '';
+                        other_c.innerHTML = '';
+                        total_c.innerHTML = '';
+                        cigarettes_m.innerHTML = '';
+                        plastic_m.innerHTML = '';
+                        metal_m.innerHTML = '';
+                        glass_m.innerHTML = '';
+                        rubber_m.innerHTML = '';
+                        wood_m.innerHTML = '';
+                        cloth_m.innerHTML = '';
+                        other_m.innerHTML = '';
+                        total_m.innerHTML = '';
+                        image.innerHTML = '';
+                    }
+
+                    //zoom to feature when clicked
+                    function zoomToFeature(e) {
+                        map.fitBounds(e.target.getBounds(), {maxZoom: 15});;
+                    }
+
+
+                    //listeners
+                    function onEachFeature(feature, layer) {
+                        layer.on({
+                            mouseover: getAndHighlightFeature,
+                            mouseout: resetHighlightAndGet,
+                            click: zoomToFeature,
+                        });
+                    }
+
+
+
+                    //finally add the geojson to the map
+                    geojson = L.geoJson(beaches, {
+                        style: mystyle,
+                        onEachFeature: onEachFeature
+                    }).addTo(map);
+
+    </script>
+
+
+
+
+</body>
+</html>

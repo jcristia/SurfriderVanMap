@@ -1,0 +1,21 @@
+﻿/* if any problem in IE go back and see if this helps: http://benfrain.com/understanding-the-viewport-meta-tag-and-css-viewport/  */
+
+html{
+	height: 100%;
+	}
+body {
+	height: 100%;
+	}
+.container-fluid, .row, .col-md-9, .col-sm-9, .col-xs-9 {
+	height:100%;
+    margin-right: 0;
+    margin-left: 0;
+    padding-right: 0;
+    padding-left:0;
+	}
+h1 {
+    font-size: 18px;
+}
+p{
+    font-size: 12px;
+}
