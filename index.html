@@ -24,14 +24,14 @@
 
 
             <!-- map area -->
-            <div class="col-md-9 col-sm-9 col-xs-9 left-side">
+            <div class="col-md-8 col-sm-8 col-xs-8 left-side">
                 <div id="map" style="height: 100%; width: 100%; position: relative;"></div>
             </div>
 
 
 
             <!--  data area  -->
-            <div class="col-md-3 col-sm-3 col-xs-3 right-side">
+            <div class="col-md-4 col-sm-4 col-xs-4 right-side">
 
                 <a href="http://www.vancouverbc.surfrider.org/" target="_blank">
                     <img src="Content/images/surfriderLogo.png" alt="@surfridervan" class="center-block" style="width:30%; height:auto;" />
@@ -40,9 +40,9 @@
                 <p class="text-justify" style="margin-bottom: 15px;">Surfrider Vancouver conducts monthly cleanups at local beaches as part of our Protect Where You Play campaign.  At each cleanup, trash is collected from a 100 meter transect, sorted and counted.  <b>Hover over a beach to display the AVERAGE of each trash type.</b></p>
 
                 <div class="row" style="margin-bottom: 10px;">
-                    <div class="col-md-5 col-sm-5 col-xs-5">
+                    <div class="col-md-5 col-sm-5 col-xs-5" style="padding-left:0;">
                         <p class="text-right"><b>Beach:</b></p>
-                        <p class="text-right"># of transect events:</p>
+                        <p class="text-right">Transect events:</p>
                         <p class="text-right">Most recent cleanup:</p>
                     </div>
                     <div class="col-md-7 col-sm-7 col-xs-7">
@@ -67,8 +67,8 @@
                         <p class="text-right">Other:</p>
                         <p class="text-right"><b>TOTAL:</b></p>
                     </div>
-                    <div class="col-md-4 col-sm-4 col-xs-4">
-                        <p><b>Count</b></p>
+                    <div class="col-md-3 col-sm-3 col-xs-3">
+                        <p class="text-center"><b>Count</b></p>
                         <div id="cigarettes_c"></div>
                         <div id="plastic_c"></div>
                         <div id="metal_c"></div>
@@ -82,7 +82,7 @@
 
 
                     </div>
-                    <div class="col-md-4 col-sm-4 col-xs-4">
+                    <div class="col-md-5 col-sm-5 col-xs-5">
                         <p><b>Mass</b></p>
                         <div id="cigarettes_m"></div>
                         <div id="plastic_m"></div>
@@ -109,8 +109,17 @@
 
 
     <script>
+
+        //get screen width and adjust initial zoom level
+        var width = document.documentElement.clientWidth;
+        var zoomInit = 13;
+        if (width < 768) {
+            zoomInit = 12;
+        };
+
+                     
                     //load map
-        var map = L.map('map', { zoomControl: false }).setView([49.3005116, -123.1982394], 13);
+                    var map = L.map('map', { zoomControl: false }).setView([49.294772, -123.185401], zoomInit);
                     L.tileLayer('https://{s}.tiles.mapbox.com/v4/jcristia.a901a5c8/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiamNyaXN0aWEiLCJhIjoiQmFielRYTSJ9.gqekTOIsirCI5WZrmx-3Gw').addTo(map);
 
                     //add zoom to home functionality
@@ -158,7 +167,7 @@
                     
 
 
-                    //highlight feature on mouseover and get geojson feature properties and do the 
+                    //highlight feature on mouseover 
                     function getAndHighlightFeature(e) {
                         var layer = e.target;
 
@@ -174,34 +183,7 @@
                             layer.bringToFront();
                         }
 
-                        //get geojson feature properties and put into beach variable
-                        var beach = e.target.feature.properties;
-
-
-                        //do the innerhtml to get the feature properties accessible out of the map
-                        //round to 1 decimal place, prevents me from having to do extra work in excel/arcgis
-                        beachName.innerHTML = '<p><b>' + beach.Location_Name + '</b></p>';
-                        transects.innerHTML = '<p><b>' + beach.Sample_size_transects + '</b></p>';
-                        date.innerHTML = '<p><b>' + beach.Date_of_most_recent_cleanup + '</b></p>';
-                        image.innerHTML = '<img src="' + beach.PhotoURL + '" alt="beach image" class="center-block" style="width:auto; height:auto;"/>';
-                        cigarettes_c.innerHTML = '<p><b>' + (beach.Cig_Total_Count).toFixed(1); + '</b></p>';
-                        plastic_c.innerHTML = '<p><b>' + (beach.Plastic_Total_Count).toFixed(1); + '</b></p>';
-                        metal_c.innerHTML = '<p><b>' + (beach.Metal_Total_Count).toFixed(1); + '</b></p>';
-                        glass_c.innerHTML = '<p><b>' + (beach.Glass_Total_Count).toFixed(1); + '</b></p>';
-                        rubber_c.innerHTML = '<p><b>' + (beach.Rubber_Total_Count).toFixed(1); + '</b></p>';
-                        wood_c.innerHTML = '<p><b>' + (beach.Wood_Total_Count).toFixed(1); + '</b></p>';
-                        cloth_c.innerHTML = '<p><b>' + (beach.Cloth_Total_Count).toFixed(1); + '</b></p>';
-                        other_c.innerHTML = '<p><b>' + (beach.OtherNoCig_Total_Count).toFixed(1); + '</b></p>';
-                        total_c.innerHTML = '<p><b>' + (beach.Grand_Total_Count).toFixed(1); + '</b></p>';
-                        cigarettes_m.innerHTML = '<p><b>' + (beach.Cig_Total_Mass).toFixed(1); + '</b></p>';
-                        plastic_m.innerHTML = '<p><b>' + (beach.Plastic_Total_Mass).toFixed(1); + '</b></p>';
-                        metal_m.innerHTML = '<p><b>' + (beach.Metal_Total_Mass).toFixed(1); + '</b></p>';
-                        glass_m.innerHTML = '<p><b>' + (beach.Glass_Total_Mass).toFixed(1); + '</b></p>';
-                        rubber_m.innerHTML = '<p><b>' + (beach.Rubber_Total_Mass).toFixed(1); + '</b></p>';
-                        wood_m.innerHTML = '<p><b>' + (beach.Wood_Total_Mass).toFixed(1); + '</b></p>';
-                        cloth_m.innerHTML = '<p><b>' + (beach.Cloth_Total_Mass).toFixed(1); + '</b></p>';
-                        other_m.innerHTML = '<p><b>' + (beach.OtherNoCig_Total_Mass).toFixed(1); + '</b></p>';
-                        total_m.innerHTML = '<p><b>' + (beach.Grand_Total_Mass).toFixed(1); + '</b></p>';
+                       
                         
                     }
 
@@ -211,10 +193,21 @@
                     //make geojson variable accessible by defining it before the listeners and assigning to the layer
                     var geojson;
 
-                    //reset original style on mouseout and remove json properties from right
+                    //reset original style on mouseout
                     function resetHighlightAndGet(e) {
                         geojson.resetStyle(e.target);
                         
+                        
+                    }
+
+                    //zoom to feature when clicked, clear data, bind new data
+                    function zoomToFeature(e) {
+                        map.fitBounds(e.target.getBounds(), { maxZoom: 14 });;
+
+                        //get geojson feature properties and put into beach variable
+                        var beach = e.target.feature.properties;
+
+                        //clear data (this is so that old data doesn't stick around on beaches that don't have any data)
                         beachName.innerHTML = '';
                         transects.innerHTML = '';
                         date.innerHTML = '';
@@ -237,11 +230,34 @@
                         other_m.innerHTML = '';
                         total_m.innerHTML = '';
                         image.innerHTML = '';
-                    }
 
-                    //zoom to feature when clicked
-                    function zoomToFeature(e) {
-                        map.fitBounds(e.target.getBounds(), {maxZoom: 15});;
+                        //do the innerhtml to get the feature properties accessible out of the map
+                        //round to 1 decimal place, prevents me from having to do extra work in excel/arcgis
+                        beachName.innerHTML = '<p><b>' + beach.Location_Name + '</b></p>';
+                        transects.innerHTML = '<p><b>' + beach.Sample_size_transects + '</b></p>';
+                        date.innerHTML = '<p><b>' + beach.Date_of_most_recent_cleanup + '</b></p>';
+                        image.innerHTML = '<img src="' + beach.PhotoURL + '" alt="beach image" class="center-block" style="width:auto; height:auto;"/>';
+                        //at this point, if the beach does not have transect data, it will break and not display anything (which I want).  Otherwise, it loads "undefined".  
+                        cigarettes_c.innerHTML = '<p class="text-center"><b>' + (beach.Cig_Total_Count).toFixed(1); + '</b></p>';
+                        plastic_c.innerHTML = '<p class="text-center"><b>' + (beach.Plastic_Total_Count).toFixed(1); + '</b></p>';
+                        metal_c.innerHTML = '<p class="text-center"><b>' + (beach.Metal_Total_Count).toFixed(1); + '</b></p>';
+                        glass_c.innerHTML = '<p class="text-center"><b>' + (beach.Glass_Total_Count).toFixed(1); + '</b></p>';
+                        rubber_c.innerHTML = '<p class="text-center"><b>' + (beach.Rubber_Total_Count).toFixed(1); + '</b></p>';
+                        wood_c.innerHTML = '<p class="text-center"><b>' + (beach.Wood_Total_Count).toFixed(1); + '</b></p>';
+                        cloth_c.innerHTML = '<p class="text-center"><b>' + (beach.Cloth_Total_Count).toFixed(1); + '</b></p>';
+                        other_c.innerHTML = '<p class="text-center"><b>' + (beach.OtherNoCig_Total_Count).toFixed(1); + '</b></p>';
+                        total_c.innerHTML = '<p class="text-center"><b>' + (beach.Grand_Total_Count).toFixed(1); + '</b></p>';
+                        cigarettes_m.innerHTML = '<p><b>' + (beach.Cig_Total_Mass).toFixed(1); + '</b></p>';
+                        plastic_m.innerHTML = '<p><b>' + (beach.Plastic_Total_Mass).toFixed(1); + '</b></p>';
+                        metal_m.innerHTML = '<p><b>' + (beach.Metal_Total_Mass).toFixed(1); + '</b></p>';
+                        glass_m.innerHTML = '<p><b>' + (beach.Glass_Total_Mass).toFixed(1); + '</b></p>';
+                        rubber_m.innerHTML = '<p><b>' + (beach.Rubber_Total_Mass).toFixed(1); + '</b></p>';
+                        wood_m.innerHTML = '<p><b>' + (beach.Wood_Total_Mass).toFixed(1); + '</b></p>';
+                        cloth_m.innerHTML = '<p><b>' + (beach.Cloth_Total_Mass).toFixed(1); + '</b></p>';
+                        other_m.innerHTML = '<p><b>' + (beach.OtherNoCig_Total_Mass).toFixed(1); + '</b></p>';
+                        total_m.innerHTML = '<p><b>' + (beach.Grand_Total_Mass).toFixed(1); + '</b></p>';
+
+
                     }
 
 
