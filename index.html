@@ -37,7 +37,7 @@
                     <img src="Content/images/surfriderLogo.png" alt="@surfridervan" class="center-block" style="width:30%; height:auto;" />
                 </a>
                 <h1 class="text-center">Surfrider Vancouver Beach Cleanups</h1>
-                <p class="text-justify" style="margin-bottom: 15px;">Surfrider Vancouver conducts monthly cleanups at local beaches as part of our Protect Where You Play campaign.  At each cleanup, trash is collected from a 100 meter transect, sorted and counted.  <b>Hover over a beach to display the AVERAGE of each trash type.</b></p>
+                <p class="text-justify" style="margin-bottom: 15px;">Surfrider Vancouver conducts monthly cleanups at local beaches as part of our Protect Where You Play campaign.  At each cleanup, trash is collected from a 100 meter transect, sorted and counted.  <b>Click on a beach to display the AVERAGE of each trash type.</b></p>
 
                 <div class="row" style="margin-bottom: 10px;">
                     <div class="col-md-5 col-sm-5 col-xs-5" style="padding-left:0;">
@@ -115,15 +115,11 @@
         var zoomInit = 13;
         if (width < 768) {
             zoomInit = 12;
-        };
+        }
 
                      
                     //load map
-<<<<<<< HEAD
                     var map = L.map('map', { zoomControl: false }).setView([49.294772, -123.185401], zoomInit);
-=======
-        var map = L.map('map', { zoomControl: false }).setView([49.294772, -123.185401], 13);
->>>>>>> origin/master
                     L.tileLayer('https://{s}.tiles.mapbox.com/v4/jcristia.a901a5c8/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoiamNyaXN0aWEiLCJhIjoiQmFielRYTSJ9.gqekTOIsirCI5WZrmx-3Gw').addTo(map);
 
                     //add zoom to home functionality
