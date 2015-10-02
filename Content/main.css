@@ -18,10 +18,9 @@ h1 {
 }
 p{
     font-size: 12px;
-    /*font-size: 0.8vw;*/
 }
 
-@media screen and (max-width: 769px){
+@media screen and (max-width: 768px){
     h1{font-size: 2vw;}
-    p{font-size: 1vw;}
+    p{font-size: 1.1vw;}
 }
