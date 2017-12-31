@@ -112,7 +112,7 @@
 
         //get screen width and adjust initial zoom level
         var width = document.documentElement.clientWidth;
-        var zoomInit = 13;
+        var zoomInit = 12;
         if (width < 768) {
             zoomInit = 12;
         }
@@ -168,7 +168,7 @@
                     var cloth_m = document.getElementById('cloth_m');
                     var other_m = document.getElementById('other_m');
                     var total_m = document.getElementById('total_m');
-                    var iamge = document.getElementById('image');
+                    var image = document.getElementById('image');
                     
 
               
@@ -213,7 +213,7 @@
                       
 
 
-                        map.fitBounds(e.target.getBounds(), { maxZoom: 15 });;
+                        map.fitBounds(e.target.getBounds(), { maxZoom: 14 });;
 
                         //get geojson feature properties and put into beach variable
                         var beach = e.target.feature.properties;
@@ -247,7 +247,7 @@
                         beachName.innerHTML = '<p><b>' + beach.Location_Name + '</b></p>';
                         transects.innerHTML = '<p><b>' + beach.Sample_size_transects + '</b></p>';
                         date.innerHTML = '<p><b>' + beach.Date_of_most_recent_cleanup + '</b></p>';
-                        image.innerHTML = '<img src="' + beach.PhotoURL + '" alt="beach image" class="center-block" style="width:auto; height:auto;"/>';
+                        image.innerHTML = '<img src="Content/images/' + beach.PhotoURL + '" alt="beach image" class="center-block" style="width:auto; height:auto;"/>';
                         //at this point, if the beach does not have transect data, it will break and not display anything (which I want).  Otherwise, it loads "undefined".  
                         cigarettes_c.innerHTML = '<p class="text-center"><b>' + (beach.Cig_Total_Count).toFixed(1); + '</b></p>';
                         plastic_c.innerHTML = '<p class="text-center"><b>' + (beach.Plastic_Total_Count).toFixed(1); + '</b></p>';
