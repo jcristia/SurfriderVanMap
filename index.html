@@ -38,17 +38,17 @@
                 </a>
                 <h1 class="text-center" >Surfrider Vancouver Beach Cleanups</h1>
                 <p class="text-justify" style="margin-bottom: 5px;">Surfrider Vancouver conducts monthly cleanups at local beaches as part of our Protect Where You Play campaign.  Trash is collected from a <b>10 x 100 meter transect</b>, sorted and counted.</p>
-                <p class="text-justify" style="margin-bottom: 15px;"><b>Click on a beach to display the AVERAGE of each trash type.</b></p> 
+                <p class="text-justify" style="margin-bottom: 15px;"><b>Click on a beach to display the AVERAGE of each trash type for 2014-2017.</b></p> 
                 <div class="row" style="margin-bottom: 10px;">
                     <div class="col-md-5 col-sm-5 col-xs-5" style="padding-left:0;">
                         <p class="text-right"><b>Beach:</b></p>
                         <p class="text-right">Transect events:</p>
-                        <p class="text-right">Most recent cleanup:</p>
+                        <!--<p class="text-right">Most recent cleanup:</p>-->
                     </div>
                     <div class="col-md-7 col-sm-7 col-xs-7">
                         <div id="beachName"></div>
                         <div id="transects"></div>
-                        <div id="date"></div>
+                        <!--<div id="date"></div>-->
                     </div>
                 </div>
 
@@ -249,24 +249,24 @@
                         date.innerHTML = '<p><b>' + beach.Date_of_most_recent_cleanup + '</b></p>';
                         image.innerHTML = '<img src="Content/images/' + beach.PhotoURL + '" alt="beach image" class="center-block" style="width:auto; height:auto;"/>';
                         //at this point, if the beach does not have transect data, it will break and not display anything (which I want).  Otherwise, it loads "undefined".  
-                        cigarettes_c.innerHTML = '<p class="text-center"><b>' + (beach.Cig_Total_Count).toFixed(1); + '</b></p>';
-                        plastic_c.innerHTML = '<p class="text-center"><b>' + (beach.Plastic_Total_Count).toFixed(1); + '</b></p>';
-                        metal_c.innerHTML = '<p class="text-center"><b>' + (beach.Metal_Total_Count).toFixed(1); + '</b></p>';
-                        glass_c.innerHTML = '<p class="text-center"><b>' + (beach.Glass_Total_Count).toFixed(1); + '</b></p>';
-                        rubber_c.innerHTML = '<p class="text-center"><b>' + (beach.Rubber_Total_Count).toFixed(1); + '</b></p>';
-                        wood_c.innerHTML = '<p class="text-center"><b>' + (beach.Wood_Total_Count).toFixed(1); + '</b></p>';
-                        cloth_c.innerHTML = '<p class="text-center"><b>' + (beach.Cloth_Total_Count).toFixed(1); + '</b></p>';
-                        other_c.innerHTML = '<p class="text-center"><b>' + (beach.OtherNoCig_Total_Count).toFixed(1); + '</b></p>';
-                        total_c.innerHTML = '<p class="text-center"><b>' + (beach.Grand_Total_Count).toFixed(1); + '</b></p>';
-                        cigarettes_m.innerHTML = '<p><b>' + (beach.Cig_Total_Mass).toFixed(1); + '</b></p>';
-                        plastic_m.innerHTML = '<p><b>' + (beach.Plastic_Total_Mass).toFixed(1); + '</b></p>';
-                        metal_m.innerHTML = '<p><b>' + (beach.Metal_Total_Mass).toFixed(1); + '</b></p>';
-                        glass_m.innerHTML = '<p><b>' + (beach.Glass_Total_Mass).toFixed(1); + '</b></p>';
-                        rubber_m.innerHTML = '<p><b>' + (beach.Rubber_Total_Mass).toFixed(1); + '</b></p>';
-                        wood_m.innerHTML = '<p><b>' + (beach.Wood_Total_Mass).toFixed(1); + '</b></p>';
-                        cloth_m.innerHTML = '<p><b>' + (beach.Cloth_Total_Mass).toFixed(1); + '</b></p>';
-                        other_m.innerHTML = '<p><b>' + (beach.OtherNoCig_Total_Mass).toFixed(1); + '</b></p>';
-                        total_m.innerHTML = '<p><b>' + (beach.Grand_Total_Mass).toFixed(1); + '</b></p>';
+                        cigarettes_c.innerHTML = '<p class="text-center"><b>' + (beach.Cig_Total_Count).toFixed(0); + '</b></p>';
+                        plastic_c.innerHTML = '<p class="text-center"><b>' + (beach.Plastic_Total_Count).toFixed(0); + '</b></p>';
+                        metal_c.innerHTML = '<p class="text-center"><b>' + (beach.Metal_Total_Count).toFixed(0); + '</b></p>';
+                        glass_c.innerHTML = '<p class="text-center"><b>' + (beach.Glass_Total_Count).toFixed(0); + '</b></p>';
+                        rubber_c.innerHTML = '<p class="text-center"><b>' + (beach.Rubber_Total_Count).toFixed(0); + '</b></p>';
+                        wood_c.innerHTML = '<p class="text-center"><b>' + (beach.Wood_Total_Count).toFixed(0); + '</b></p>';
+                        cloth_c.innerHTML = '<p class="text-center"><b>' + (beach.Cloth_Total_Count).toFixed(0); + '</b></p>';
+                        other_c.innerHTML = '<p class="text-center"><b>' + (beach.OtherNoCig_Total_Count).toFixed(0); + '</b></p>';
+                        total_c.innerHTML = '<p class="text-center"><b>' + (beach.Grand_Total_Count).toFixed(0); + '</b></p>';
+                        cigarettes_m.innerHTML = '<p><b>' + (beach.Cig_Total_Mass).toFixed(0); + '</b></p>';
+                        plastic_m.innerHTML = '<p><b>' + (beach.Plastic_Total_Mass).toFixed(0); + '</b></p>';
+                        metal_m.innerHTML = '<p><b>' + (beach.Metal_Total_Mass).toFixed(0); + '</b></p>';
+                        glass_m.innerHTML = '<p><b>' + (beach.Glass_Total_Mass).toFixed(0); + '</b></p>';
+                        rubber_m.innerHTML = '<p><b>' + (beach.Rubber_Total_Mass).toFixed(0); + '</b></p>';
+                        wood_m.innerHTML = '<p><b>' + (beach.Wood_Total_Mass).toFixed(0); + '</b></p>';
+                        cloth_m.innerHTML = '<p><b>' + (beach.Cloth_Total_Mass).toFixed(0); + '</b></p>';
+                        other_m.innerHTML = '<p><b>' + (beach.OtherNoCig_Total_Mass).toFixed(0); + '</b></p>';
+                        total_m.innerHTML = '<p><b>' + (beach.Grand_Total_Mass).toFixed(0); + '</b></p>';
 
 
                     }
